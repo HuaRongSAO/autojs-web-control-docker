@@ -120,6 +120,10 @@ export class WebSocketManager extends EventEmitter {
         req.url
     );
 
+    logger.info(
+      "WebSocket.Server req.connection -> " + JSON.stringify(req.connection)
+    );
+
     client.addListener("close", (code: number, message: string) => {
       logger.info(
         "WebSocket.Client close ip -> " +

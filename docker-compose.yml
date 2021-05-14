@@ -33,6 +33,8 @@ services:
       - yk-mysql
     ports:
       - "8889:8889"
+    volumes:
+      - "./log:/server/log"
     networks:
       - app-net
 

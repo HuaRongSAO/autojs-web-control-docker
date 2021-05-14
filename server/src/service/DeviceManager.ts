@@ -26,6 +26,9 @@ export class DeviceManager {
       if (params.token) {
         return { type: null };
       }
+
+      logger.info("DeviceManager.init params -> " + JSON.stringify(params));
+
       const ip = (
         req.connection.remoteAddress ||
         ((req.headers["x-forwarded-for"] as any) || "").split(/\s*,\s*/)[0]
