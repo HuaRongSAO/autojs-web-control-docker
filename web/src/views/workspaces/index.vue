@@ -2,59 +2,86 @@
   <div class="dashboard-container">
     <div ref="code" class="code">
       <el-row :gutter="20" class="pt15 px5" style="height: 100%">
-        <el-col :span="12" style="height: 100%">
+        <el-col :span="12" :xs="24" style="margin-bottom: 15px">
           <div class="checkbox-container">
             <div class="checkbox-header">
               <el-checkbox
                 v-model="checkAllDevice"
                 :indeterminate="isDevicesIndeterminate"
                 @change="handleDeviceCheckAllChange"
-              >设备列表</el-checkbox>
-
+              >
+                选择设备
+              </el-checkbox>
               <el-tag
                 size="mini"
                 type="info"
                 class="csp ml10"
-                :effect="deviceFilter.state == 'online' ? 'dark': 'light'"
+                :effect="deviceFilter.state == 'online' ? 'dark' : 'light'"
                 @click="checkState('online')"
-              >在线({{ onlineDeviceCount }})</el-tag>
+              >
+                在线({{ onlineDeviceCount }})
+              </el-tag>
               <el-tag
                 size="mini"
                 type="info"
                 class="csp ml2"
-                :effect="deviceFilter.state == 'offline' ? 'dark': 'light'"
+                :effect="deviceFilter.state == 'offline' ? 'dark' : 'light'"
                 @click="checkState('offline')"
-              >离线({{ offlineDeviceCount }})</el-tag>
+              >
+                离线({{ offlineDeviceCount }})
+              </el-tag>
 
               <el-tag
                 v-for="category in $store.state.device.category"
                 :key="category"
                 type="info"
-                :effect="checkedTag.includes(category) ? 'dark': 'light'"
+                :effect="checkedTag.includes(category) ? 'dark' : 'light'"
                 size="mini"
                 class="csp ml2 mr5"
                 @click="checkTag(category)"
-              >{{ category || '默认' }}</el-tag>
+              >
+                {{ category || "默认" }}
+              </el-tag>
             </div>
             <div class="checkbox-group">
-              <el-checkbox-group v-model="checkedDevices" @change="handleCheckedDeviceChange">
-                <div v-for="item in devices" :key="item.device_id" class="checkbox-item">
+              <el-checkbox-group
+                v-model="checkedDevices"
+                @change="handleCheckedDeviceChange"
+              >
+                <div
+                  v-for="item in devices"
+                  :key="item.device_id"
+                  class="checkbox-item"
+                >
                   <el-checkbox
                     :label="item.device_id"
-                  >{{ item.name }} 【{{ item.category || '默认' }}】 {{ item.is_online ? '' : `（离线）` }}</el-checkbox>
+                  >
+                    {{ item.name }} 【{{ item.category || "默认" }}】
+                    {{ item.is_online ? "" : `（离线）` }}
+                  </el-checkbox>
                 </div>
               </el-checkbox-group>
             </div>
           </div>
         </el-col>
-        <el-col :span="12" style="height: 100%">
+        <el-col :span="12" :xs="24" style="margin-bottom: 15px">
           <div class="checkbox-container">
             <div class="checkbox-header">
-              <span style="color: #606266; font-size: 14px; font-weight: 500;">脚本列表</span>
+              <span
+                style="color: #606266; font-size: 14px; font-weight: 500"
+              >
+                选择脚本
+              </span>
             </div>
             <div v-loading="listLoading" class="checkbox-group">
-              <div v-for="item in scripts" :key="item.script_id" class="checkbox-item">
-                <el-radio v-model="checkedScript" :label="item.script_id">{{ item.script_name }}</el-radio>
+              <div
+                v-for="item in scripts"
+                :key="item.script_id"
+                class="checkbox-item"
+              >
+                <el-radio v-model="checkedScript" :label="item.script_id">
+                  {{ item.script_name }}
+                </el-radio>
               </div>
             </div>
           </div>
@@ -62,23 +89,42 @@
       </el-row>
     </div>
     <div ref="divide" class="divide" />
+
     <device-log class="device_log">
-      <div>
-        <el-button plain round size="mini" @click="stopAllScript">Stop All</el-button>
-        <el-button plain round size="mini" @click="runScript">Run Script</el-button>
-      </div>
+      <template>
+        <el-button
+          plain
+          type="primary"
+          round
+          size="mini"
+          @click="runScript"
+        >
+          运行脚本
+        </el-button>
+        <el-button
+          plain
+          type="danger"
+          round
+          size="mini"
+          @click="stopAllScript"
+        >
+          停止所有脚本
+        </el-button>
+      </template>
     </device-log>
   </div>
 </template>
 
 <script>
+
 import request from "@/utils/request";
 import DeviceLog from "@/components/DeviceLog";
 import { mapGetters } from "vuex";
+
 export default {
   name: "Dashboard",
   components: {
-    DeviceLog
+    DeviceLog,
   },
   data() {
     return {
@@ -91,14 +137,14 @@ export default {
       isScriptsIndeterminate: true,
       scripts: [],
       deviceFilter: {
-        state: ""
-      }
+        state: "",
+      },
     };
   },
   computed: {
     ...mapGetters(["name"]),
     devices() {
-      let res = this.$store.state.device.list.filter(device => {
+      let res = this.$store.state.device.list.filter((device) => {
         if (!this.deviceFilter.state) {
           return true;
         } else if (this.deviceFilter.state === "online") {
@@ -111,7 +157,7 @@ export default {
       });
 
       if (this.checkedTag.length > 0) {
-        res = res.filter(device => {
+        res = res.filter((device) => {
           return this.checkedTag.includes(device.category);
         });
       }
@@ -119,11 +165,11 @@ export default {
       return res;
     },
     onlineDeviceCount() {
-      return this.$store.state.device.list.filter(it => it.is_online).length;
+      return this.$store.state.device.list.filter((it) => it.is_online).length;
     },
     offlineDeviceCount() {
       return this.$store.state.device.list.length - this.onlineDeviceCount;
-    }
+    },
   },
   created() {
     this.getScripts();
@@ -146,7 +192,7 @@ export default {
         this.deviceFilter.state = state;
       } else {
         if (this.deviceFilter.state === state) {
-          this.deviceFilter.state = '';
+          this.deviceFilter.state = "";
         } else {
           this.deviceFilter.state = state;
         }
@@ -158,19 +204,20 @@ export default {
       request({
         url: "/script/get_script_list",
         method: "get",
-        params: {}
-      }).then(res => {
+        params: {},
+      }).then((res) => {
         this.scripts = res.data.scripts;
         this.listLoading = false;
       });
     },
     handleDeviceCheckAllChange(val) {
-      this.checkedDevices = val ? this.devices.map(i => i.device_id) : [];
+      this.checkedDevices = val ? this.devices.map((i) => i.device_id) : [];
       this.isDevicesIndeterminate = false;
     },
     handleCheckedDeviceChange(value) {
       const checkedCount = value.length;
-      this.checkAllDevice = checkedCount === this.devices.length && checkedCount > 0;
+      this.checkAllDevice =
+        checkedCount === this.devices.length && checkedCount > 0;
       this.isDevicesIndeterminate =
         checkedCount > 0 && checkedCount < this.devices.length;
     },
@@ -178,12 +225,12 @@ export default {
       request
         .post("/script/run2", {
           script_id: this.checkedScript,
-          devices: this.checkedDevices
+          devices: this.checkedDevices,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "操作成功！",
-            type: "success"
+            type: "success",
           });
         })
         .finally(() => {});
@@ -191,12 +238,12 @@ export default {
     stopAllScript() {
       request
         .post("/script/stop_all", {
-          devices: this.checkedDevices
+          devices: this.checkedDevices,
         })
-        .then(res => {
+        .then((res) => {
           this.$message({
             message: "操作成功！",
-            type: "success"
+            type: "success",
           });
         })
         .finally(() => {});
@@ -260,8 +307,8 @@ export default {
         }
         return false; // 可以防止在拖动的时候选中文本
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -13,11 +13,11 @@
         <el-button
           v-loading="bustling"
           icon="el-icon-suitcase"
-          plain
-          circle
           size="mini"
           @click="saveScript"
-        />
+        >
+          保存
+        </el-button>
       </div>
     </div>
     <div style="position: relative;">
@@ -28,7 +28,7 @@
         :style="{ height: codeHeight }"
         element-loading-text="Loading"
       />
-      <div ref="divide" class="divide">Logcat</div>
+      <div ref="divide" class="divide">运行日志</div>
       <device-log class="device_log" :show-run="true" @run="runScript" />
     </div>
   </div>
@@ -40,7 +40,7 @@ import request from "@/utils/request";
 import DeviceLog from "@/components/DeviceLog";
 
 export default {
-  name: "Dashboard",
+  name: "Develop",
   components: {
     DeviceLog
   },

@@ -23,7 +23,13 @@
       <el-table-column label="设备ID" align="center">
         <template slot-scope="scope">{{ scope.row.device_id }}</template>
       </el-table-column>
-      <el-table-column label="设备名称" align="center">
+      <el-table-column class-name="status-col" label="是否在线" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.is_online" :type="scope.row.is_online | statusFilter">在线</el-tag>
+          <el-tag v-else :type="scope.row.is_online | statusFilter">离线</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="设备名称" align="center" width="120">
         <template slot-scope="scope">
           <el-button type="text" @click="changeName(scope.row.device_id)">{{ scope.row.name }}</el-button>
         </template>
@@ -33,30 +39,21 @@
           <el-button
             type="text"
             @click="changeCategory(scope.row.device_id)"
-          >{{ scope.row.category || '默认' }}</el-button>
+          >
+            {{ scope.row.category || '默认' }}
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="IP地址" align="center">
+      <el-table-column label="IP地址" align="center" width="120">
         <template slot-scope="scope">{{ scope.row.ip }}</template>
       </el-table-column>
-      <!-- <el-table-column align="center" prop="create_time" label="创建时间">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.create_time | time }}</span>
-        </template>
-      </el-table-column>-->
       <el-table-column align="center" prop="create_time" label="连接时间">
         <template slot-scope="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.connect_time | time }}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="是否在线" align="center">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.is_online" :type="scope.row.is_online | statusFilter">在线</el-tag>
-          <el-tag v-else :type="scope.row.is_online | statusFilter">离线</el-tag>
-        </template>
-      </el-table-column>
+
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
           <el-popover
@@ -73,7 +70,9 @@
                 type="primary"
                 size="mini"
                 @click="disconnectDevice(scope.row.device_id)"
-              >确定</el-button>
+              >
+                确定
+              </el-button>
             </div>
             <el-button
               slot="reference"

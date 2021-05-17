@@ -1,8 +1,29 @@
 <template>
   <div class="log-container">
-    <!-- <div class="title">Logcat</div> -->
     <div class="tool-bar">
-      <el-select v-model="deviceSelect" size="mini" placeholder="指定设备" style="width: 150px;">
+      <div class="actions">
+        <el-button
+          v-if="showRun"
+          icon="el-icon-caret-right"
+          size="mini"
+          @click="runScript"
+        >
+          运行
+        </el-button>
+        <slot />
+        <el-button
+          class="right mr10"
+          icon="el-icon-circle-close"
+          size="mini"
+          @click="clearConsole"
+        >
+          清除日志
+        </el-button>
+      </div>
+    </div>
+
+    <div class="tool-bar">
+      <el-select v-model="deviceSelect" size="mini" placeholder="指定设备" style="width: 120px;margin-right: 10px; margin-bottom: 10px">
         <el-option label="全部设备" value />
         <el-option
           v-for="item in $store.state.device.list.filter(i => i.is_online)"
@@ -11,7 +32,7 @@
           :value="item.device_id"
         />
       </el-select>
-      <el-select v-model="categorySelect" size="mini" placeholder="指定类别" style="width: 120px; margin-left: 10px;">
+      <el-select v-model="categorySelect" size="mini" placeholder="指定类别" style="width: 120px; margin-right: 10px;margin-bottom: 10px">
         <el-option label="全部类别" value />
         <el-option
           v-for="item in $store.state.device.category"
@@ -24,7 +45,7 @@
         v-model="logLevel"
         size="mini"
         placeholder="日志级别"
-        style="width: 100px; margin-left: 10px;"
+        style="width: 120px; margin-right: 10px; margin-bottom: 10px"
       >
         <el-option label="Verbose" value="" />
         <el-option label="Debug" value="D" />
@@ -37,27 +58,8 @@
         placeholder="请输入内容"
         size="mini"
         prefix-icon="el-icon-search"
-        style="width: 150px; margin-left: 10px;"
+        style="width: 150px; margin-right: 10px; margin-bottom: 10px"
       />
-      <div class="actions">
-        <el-button
-          v-if="showRun"
-          icon="el-icon-caret-right"
-          plain
-          circle
-          size="mini"
-          @click="runScript"
-        />
-        <slot />
-        <el-button
-          class="right mr10"
-          icon="el-icon-circle-close"
-          plain
-          circle
-          size="mini"
-          @click="clearConsole"
-        />
-      </div>
     </div>
     <div
       ref="logScroller"
@@ -147,17 +149,16 @@ export default {
 }
 .tool-bar {
   background-color: #f2f2f2;
-  display: flex;
   padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: scroll;
 }
 .tool-bar .actions {
   flex-grow: 1;
-  margin-left: 25px;
   padding-right: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
+
 .log-scroller {
   overflow: auto;
   padding: 5px 5px 1.5em 10px;

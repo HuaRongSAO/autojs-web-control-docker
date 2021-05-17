@@ -2,6 +2,8 @@
   <div class="dashboard-container">
     <div class="dashboard-text">
       Autojs Web Control System
+      <br>
+      后台管理系统
     </div>
   </div>
 </template>

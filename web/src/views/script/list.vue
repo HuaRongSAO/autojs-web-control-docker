@@ -8,27 +8,7 @@
       fit
       highlight-current-row
     >
-      <el-table-column label="脚本ID" align="center">
-        <template slot-scope="scope">{{ scope.row.script_id }}</template>
-      </el-table-column>
-      <el-table-column label="脚本名称" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.script_name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="create_time" label="创建时间">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.create_time | time }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="update_time" label="更新时间">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.update_time | time }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="100">
         <template slot-scope="scope">
           <el-popover v-model="scope.row.visible" placement="top" width="120">
             <p class="tac">您确定删除吗？</p>
@@ -38,7 +18,6 @@
             </div>
             <el-button slot="reference" type="danger" icon="el-icon-delete" circle size="mini" />
           </el-popover>
-
           <el-button
             class="ml5"
             type="primary"
@@ -49,6 +28,25 @@
           />
         </template>
       </el-table-column>
+      <el-table-column label="脚本ID" align="center">
+        <template slot-scope="scope">{{ scope.row.script_id }}</template>
+      </el-table-column>
+      <el-table-column label="脚本名称" align="center" width="150">
+        <template slot-scope="scope">
+          <span>{{ scope.row.script_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="create_time" label="创建时间" width="80">
+        <template slot-scope="scope">
+          <span>{{ scope.row.create_time | time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="update_time" label="更新时间" width="80">
+        <template slot-scope="scope">
+          <span>{{ scope.row.update_time | time }}</span>
+        </template>
+      </el-table-column>
+
     </el-table>
   </div>
 </template>
