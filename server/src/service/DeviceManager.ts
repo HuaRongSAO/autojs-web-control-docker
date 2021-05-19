@@ -24,6 +24,7 @@ export class DeviceManager {
     WebSocketManager.getInstance().addClientRequestListeners(async (req) => {
       const params = querystring.parse(req.url.replace("/?", ""));
       if (params.token) {
+        // 来自后台请求
         return { type: null };
       }
 
@@ -35,7 +36,7 @@ export class DeviceManager {
       ).replace(/[^0-9\.]/gi, "");
 
       const deviceName = params.name || ip;
-
+      // TODO deviceName 修改 通过设备ID
       let device = await DeviceModel.getByDeviceName(deviceName as string);
       if (!device) {
         await DeviceModel.insert({

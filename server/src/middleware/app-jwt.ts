@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 import * as Koa from "koa";
 import * as moment from "moment";
 import unless = require("koa-unless");
-// import { redis } from '../utils/redis';
+
 import { ResultUtils } from "./../utils/result-utils";
 
 export const secret = "hahahahahah" + moment().format("YYYYMMDD");
@@ -43,10 +43,7 @@ export async function verifyToken(token: string) {
 export const middleware: any = async (ctx: Koa.Context, next: () => void) => {
   try {
     const data = await verify(ctx);
-    // const sess = (await redis.get(token)) || '{}';
-    // ctx.session = JSON.parse(sess);
     await next();
-    // await redis.set(token, JSON.stringify(ctx.session), 'PX', 1000 * 60 * 60 * 2);
   } catch (error) {
     ctx.body = ResultUtils.forbidden(error.meaasge);
   }
