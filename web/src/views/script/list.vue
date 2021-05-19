@@ -28,10 +28,10 @@
           />
         </template>
       </el-table-column>
-      <el-table-column label="脚本ID" align="center">
+      <el-table-column label="脚本ID" align="center" width="80">
         <template slot-scope="scope">{{ scope.row.script_id }}</template>
       </el-table-column>
-      <el-table-column label="脚本名称" align="center" width="150">
+      <el-table-column label="脚本名称" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.script_name }}</span>
         </template>
