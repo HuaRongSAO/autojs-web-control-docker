@@ -81,7 +81,7 @@ DROP TABLE IF EXISTS `t_script`;
 CREATE TABLE `t_script` (
   `script_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '脚本',
   `script_name` varchar(255) DEFAULT NULL COMMENT '脚本名称',
-  `script` longtext COMMENT '脚本内容',
+  `script` longtext DEFAULT NULL COMMENT '脚本内容',
   `script_args` varchar(255) DEFAULT NULL COMMENT '脚本参数',
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
