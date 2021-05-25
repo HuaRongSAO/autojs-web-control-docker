@@ -125,7 +125,19 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: "/download",
+    component: Layout,
+    redirect: "/workspaces",
+    children: [
+      {
+        path: "download",
+        name: "Download",
+        component: () => import("@/views/download/index"),
+        meta: { title: "下载应用", icon: "table" }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true }
 ];
