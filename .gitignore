@@ -10,7 +10,6 @@
 /release
 /captures
 .externalNativeBuild
-*.apk
 *.exe
 .idea/caches/build_file_checksums.ser
 server/utils/db.ts
