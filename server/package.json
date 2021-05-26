@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon",
     "build": "tsc -p tsconfig.build.json",
-    "dev": "cross-env USE_ENV=development ts-node src/modules/default/main.ts",
-    "server": "cross-env USE_ENV=production node dist/modules/default/main.js",
+    "dev": "cross-env AUTO_JS_USE_ENV=development ts-node src/modules/default/main.ts",
+    "server": "cross-env AUTO_JS_USE_ENV=production node dist/modules/default/main.js",
     "clean": "ts-clean",
     "lint": "tslint --fix -p tsconfig.json -c tslint.json"
   },

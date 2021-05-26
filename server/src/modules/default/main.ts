@@ -1,8 +1,5 @@
-/**
- * @Author: kun
- * 2019-10-25
- */
 require("module-alias/register");
+import "./../../utils/import-env";
 import * as koaLogger from "koa-logger";
 import { createApplication } from "./../../common/souljs/lib/index";
 import { NODE_ENV } from "./../../utils/enums";
